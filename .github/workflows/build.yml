@@ -1,0 +1,7 @@
+on:
+  pull_request:
+    types: [opened, reopened, edited]
+
+jobs:
+  build:
+    uses : ./.github/workflows/docker-build.yml
