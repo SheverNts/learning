@@ -1,0 +1,49 @@
+name: Zita-Workflow-Build
+on:
+  workflow_call:
+    inputs:
+      runs-on:
+        type: string
+        default: 'ubuntu-latest'
+        required: false
+      tag:
+        type: string
+        default: 'latest'
+        required: false
+      repo:
+        type: string
+        required: true
+
+jobs:
+  env:
+    ENV_FILE: '.env'
+  Build:
+    runs-on: ${{ inputs.runs-on }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Lint
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: Dockerfile
+      - name: Build
+        run: |
+          cat ${{ env.ENV_FILE }} >> $GITHUB_ENV
+          docker build -t ${{ inputs.repo }}:${{ inputs.tag }} .
+        shell: bash
+
+      - name: Tagging Latest
+        run: docker build -t ${{ inputs.repo }}:latest .
+        if: ${{ github.ref_name == 'refs/tags/' }}
+
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+        token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Publish Artifact
+        run: |
+          doctl registry login --expiry-seconds 1200
+          docker push ${{ inputs.repo }}:${{ inputs.tag }}
+          doctl registry logout
+        shell: bash
