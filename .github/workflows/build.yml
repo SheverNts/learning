@@ -1,6 +1,6 @@
-on:
-  pull_request:
-    types: [opened, reopened, edited]
+on: workflow_dispatch 
+  # pull_request:
+  #   types: [opened, reopened, edited]
 
 jobs:
   build:
