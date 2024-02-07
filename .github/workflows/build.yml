@@ -4,4 +4,8 @@ on: workflow_dispatch
 
 jobs:
   build:
-    uses : ./.github/workflows/docker-build.yml
+    runs-on: ubuntu-latest
+    steps:
+      - uses : ./.github/workflows/docker-build.yml
+        with :
+          repo : "hellow"
