@@ -21,7 +21,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          repository: "SheverNts/learning"
+          repository: SheverNts/learning
       - name: Lint
         uses: hadolint/hadolint-action@v3.1.0
         with:
