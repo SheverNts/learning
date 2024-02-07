@@ -15,8 +15,6 @@ on:
         required: true
 
 jobs:
-  env:
-    ENV_FILE: '.env'
   Build:
     runs-on: ${{ inputs.runs-on }}
     steps:
@@ -38,8 +36,8 @@ jobs:
 
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
-        with:
-        token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+          with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
       - name: Publish Artifact
         run: |
