@@ -19,10 +19,7 @@ jobs:
     runs-on: ${{ inputs.runs-on }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          repository: SheverNts/learning
-          path: ''
+        uses: actions/checkout@v4
       
       - name: Lint
         uses: hadolint/hadolint-action@v3.1.0
